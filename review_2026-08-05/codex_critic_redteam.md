@@ -1,4 +1,4 @@
-# Codex-Critic red-team review: Keyence BZ-X stitching
+# Codex-Critic red-team review: BZ-X stitching
 
 **Review timestamp:** 2026-08-05 22:49:57 JST  
 **Files reviewed:** `stitcher.py`, `main_stitch_excerpt.py`  
@@ -131,7 +131,7 @@ For three columns and `step_x=(-3,1301)`, the pre-normalization y coordinates ar
 - The DS=2 parity defect above can mis-rank a correct odd `-3` before origin construction.
 - Integer-only phase peaks and median truncation cannot represent a fractional shear or pitch; systematic rounding error can accumulate across a large grid.
 - A single cross-axis term cannot represent row/column-dependent shear, backlash, or distortion.
-- Main-axis direction is hard constrained to positive `dx` for `+X` and positive `dy` for `+Y`. If Keyence indices run in the opposite physical direction for a dataset, the real candidate is filtered and fallback/alias behavior follows.
+- Main-axis direction is hard constrained to positive `dx` for `+X` and positive `dy` for `+Y`. If the vendor indices run in the opposite physical direction for a dataset, the real candidate is filtered and fallback/alias behavior follows.
 
 **How to test it.**
 
@@ -279,7 +279,7 @@ There is also a discovery bug: if `_ome_planes` cannot open the first sample, it
 
 ## Minimum acceptance tests before downstream quantification
 
-1. **Axis audit:** prove the actual Keyence file layouts map correctly from OME `(C,Z,T)` to exported planes; fail closed on an unrecognized layout.
+1. **Axis audit:** prove the actual the vendor file layouts map correctly from OME `(C,Z,T)` to exported planes; fail closed on an unrecognized layout.
 2. **Known-geometry phantom:** recover approximately 29% overlap from nonperiodic, periodic, sparse, odd-shift, jittered, and serpentine grids. Include the observed `dy=-3` and require parity-invariant scoring.
 3. **Residual QC:** retain every neighbor measurement, require adequate support and uniqueness, solve/refine per-tile positions, and publish residual/cycle-closure maps. A fallback mosaic should not be released as quantitative data.
 4. **Photometric identity:** constant tiles must remain bit-exact; a uniform slide must remain spatially uniform after stitching; noise and signal statistics must be reported by coverage.

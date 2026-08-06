@@ -1,4 +1,4 @@
-# Implementation plan: quantitative and failure-safe Keyence stitching upgrades
+# Implementation plan: quantitative and failure-safe the vendor stitching upgrades
 
 Created: 2026-08-06 00:16:52 JST  
 Target: `stitcher.py`  
@@ -6,7 +6,7 @@ Status: implementation plan only; no source code is changed by this document.
 
 ## Inputs and decisions
 
-This plan is based on the current `stitcher.py`, the Claude panel report, the Codex red-team report, both versions of the field-standard report (the final differs only in citation corrections), and the supplied measurements from real Keyence BZ-X data.
+This plan is based on the current `stitcher.py`, the Claude panel report, the Codex red-team report, both versions of the field-standard report (the final differs only in citation corrections), and the supplied measurements from real BZ-X data.
 
 The measured data change one recommendation from the general reviews: retain the two-vector rigid lattice as the final geometric model for this upgrade. High-confidence edge residuals have median 1 px, maximum 3 px, and no growth with distance from the grid origin. There is therefore no evidence here for a per-tile pose solve. Preserve every edge measurement and expose the residuals so this assumption remains testable; revisit a per-tile robust solve only if residual growth, row/column structure, or cycle errors appear.
 
@@ -36,7 +36,7 @@ This intentionally rereads reference frames in pass 2 rather than caching all we
 
 Add the following internal dataclasses; exact names may change, but their information must not be collapsed:
 
-- `OverlapPrior(min_fraction=0.05, max_fraction=0.60, nominal_x=0.29, nominal_y=0.29, source="keyence_protocol")`.
+- `OverlapPrior(min_fraction=0.05, max_fraction=0.60, nominal_x=0.29, nominal_y=0.29, source="instrument_protocol")`.
 - `ShadingModel`: plane/cohort identity, native `flatfield`, native `darkfield`, fit settings, sample IDs, convergence/stability metrics, model ID, and status.
 - `EdgeMeasurement`: one expected adjacency, all candidate/refinement/QC fields listed later.
 - `AxisEstimate`: nullable local step, scores, expected/supporting edge counts, support fraction, ambiguity, subpixel status, and failure reason.
@@ -183,7 +183,7 @@ For each well axis, apply this order:
 
 1. Its own valid local two-vector (`geometry_source_axis="local"`).
 2. The plate two-vector, including its cross-axis shear (`"plate_consensus"`).
-3. A trusted explicit nominal overlap (`"nominal_overlap"`). For this Keyence protocol, 29% gives:
+3. A trusted explicit nominal overlap (`"nominal_overlap"`). For this the vendor protocol, 29% gives:
 
 ```text
 step_x = (0.0, 1832 * 0.71) = (0.0, 1300.72)

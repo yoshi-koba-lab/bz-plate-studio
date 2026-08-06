@@ -195,7 +195,7 @@ For zero-mean NCC evaluated on the valid, corrected, post-shift overlap:
 
 There is deliberately no universal pass threshold. ASHLAR estimates the false-match boundary per dataset as the 99th percentile of NCC from 1,000 random non-neighbor pairs (an empirical one-sided `p=0.01`) and combines it with a physical translation limit. A repeated pattern or fixed shading field can also produce a high NCC for the wrong shift, so NCC is necessary evidence, not proof.
 
-The code's `0.15` cutoff is therefore too permissive for unattended acceptance and is especially weak because it is applied to an aggregate consensus score rather than each edge. Its high-pass/downsampled NCC is not numerically identical to Fiji's regression measure, so the exact replacement threshold must be calibrated on representative Keyence data; the methodological conclusion remains that `0.15` alone cannot certify a correct stitch.
+The code's `0.15` cutoff is therefore too permissive for unattended acceptance and is especially weak because it is applied to an aggregate consensus score rather than each edge. Its high-pass/downsampled NCC is not numerically identical to Fiji's regression measure, so the exact replacement threshold must be calibrated on representative the vendor data; the methodological conclusion remains that `0.15` alone cannot certify a correct stitch.
 
 At minimum, a correct run should report median, 5th percentile, and minimum accepted-edge NCC; median and 95th-percentile residual by direction; rejected-edge count; largest loop-closure error; row/column/direction trends; and overlay crops from representative seams and four-tile junctions.
 

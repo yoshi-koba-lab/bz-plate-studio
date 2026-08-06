@@ -1,4 +1,4 @@
-# Claude-Panel — Independent Methodological Opinion on the Keyence BZ-X Stitcher
+# Claude-Panel — Independent Methodological Opinion on the BZ-X Stitcher
 
 **Reviewer:** Claude-Panel (independent methods/critique seat)
 **Date:** 2026-08-05
@@ -91,7 +91,7 @@ Why the "perfect" claim is wrong:
 - **Widefield makes it worse.** The BZ-X is widefield, not confocal; every in-focus feature dumps out-of-focus haze into neighbouring slices. MIP of 50 hazy slices maximises both the haze contribution and the extreme-value bias.
 - The offered alternatives are limited: `mean` (unbiased background, √N noise reduction, but blurs in haze) and `middle` (naïvely assumes the feature sits mid-stack). There is **no focus-based projection**.
 
-**What I would do instead:** default to **Extended Depth of Field (EDF/EDOF)** — pick, per pixel, the value from the *sharpest* slice by a local focus measure (this is what Keyence's own "full focus" does). EDF selects a *real acquired intensity* rather than a noise-inflated maximum, so it avoids background bias and is far more defensible quantitatively, while giving the all-in-focus image users expect from a widefield Z-stack. Keep `mean`/`sum` for users who need linear axial integration, keep MIP as an explicit qualitative option, and **document that MIP intensities are not comparable across differing slice counts**. (Also: all projections should be computed on flat-fielded tiles — see §6.)
+**What I would do instead:** default to **Extended Depth of Field (EDF/EDOF)** — pick, per pixel, the value from the *sharpest* slice by a local focus measure (this is what the vendor's own "full focus" does). EDF selects a *real acquired intensity* rather than a noise-inflated maximum, so it avoids background bias and is far more defensible quantitatively, while giving the all-in-focus image users expect from a widefield Z-stack. Keep `mean`/`sum` for users who need linear axial integration, keep MIP as an explicit qualitative option, and **document that MIP intensities are not comparable across differing slice counts**. (Also: all projections should be computed on flat-fielded tiles — see §6.)
 
 ---
 
